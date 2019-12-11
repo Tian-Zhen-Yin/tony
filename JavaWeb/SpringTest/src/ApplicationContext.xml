@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--bean元素声明spring创建的对象实例，id指定对象的唯一标识符，方便程序的使用，class属性指定类的位置和名称-->
+    <bean id="HelloSpring" class="springdemo.HelloSpring">
+        <!--指定被赋值的属性名-->
+        <property name="who">
+            <!--赋值内容-->
+            <value>Spring</value>
+        </property>
+    </bean>
+</beans>

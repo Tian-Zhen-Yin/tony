@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/smbms?useUnicode=true&amp;characterEncoding=utf8">
+
+        </property>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+    <!--配置SqlsessionFactoryBean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--引用数据源组件-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--引用MyBatis配置文件中的配置-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--配置SQL映射文件信息-->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:dao/**/*.xml</value>
+            </list>
+        </property>
+     </bean>
+    <!--&lt;!&ndash;配置SqlSessionTemplate&ndash;&gt;
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    &lt;!&ndash;配置DAO组件并注入SqlSessionTemplate实例&ndash;&gt;
+    <bean id="userMapper" class="dao.impl.UserMapperImpl">
+        <property name="sqlSession" ref="sqlSessionTemplate"/>
+    </bean>-->
+    <!--dao实现类使用SqlSessionDaoSupport，简化SqlSessionTemplate的配置和获取-->
+    <bean id="userMapper" class="dao.impl.UserMapperImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="userService" class="service.impl.UserServiceImpl">
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+
+</beans>

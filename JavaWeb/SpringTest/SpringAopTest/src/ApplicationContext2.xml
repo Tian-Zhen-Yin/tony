@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+        <bean id="userDao" class="dao.impl.UserDaoImpl"></bean>
+        <bean id="userService" class="service.impl.UserServiceImpl">
+       <!--通过constructor为构造函数传参-->
+            <constructor-arg>
+                <ref bean="userDao"/>
+            </constructor-arg>
+
+    <!--        <constructor-arg type="int">
+                <value>123</value>
+            </constructor-arg>-->
+
+            <constructor-arg index="1">
+                <value>123456</value>
+            </constructor-arg>
+        </bean>
+    <!--P命名空间注入-->
+    <bean id="user" class="entity.User" p:id="123" p:name="张三" p:password="******" p:email="yty@xxx.com"/>
+</beans>

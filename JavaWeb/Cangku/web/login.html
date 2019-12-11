@@ -1,0 +1,71 @@
+
+<html>
+<title>仓库管理系统登陆</title>
+<link href="CSS/style.css" rel="stylesheet" type="text/css">
+  <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<body><center>
+<table width="540" height="366"  border="0" cellpadding="0" cellspacing="0" background="KCM/login.jpg">
+  <form  name="form1" method="post" action="login.jsp" >
+	<tr>
+	  <td width="46%" height="111">&nbsp;</td>
+	  <td width="40%">&nbsp;</td>
+	  <td width="14%">&nbsp;</td>
+    <tr>
+      <td height="27">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    <tr>
+	  <td height="163">&nbsp;</td>
+	  <td>&nbsp;</td>
+	  <td>&nbsp;</td>
+    <tr>
+      <td>
+          <label>
+          <div align="center">用户名：
+            <input name="username" type="text" size="12">
+          </div>
+          </label></td>
+      <td>
+        <label>
+        <div align="center">密码：
+          <input name="password" type="password" size="12">
+        </div>
+        </label></td>
+	</form>
+      <tr><td height="48"><div align="center">
+        <input name="submit" type="button" class="btn_grey" value="登录" onClick="check()"> 
+      </div></td>
+      <td><div align="center">
+        <input name="reset" type="reset" class="btn_grey" value="取消">
+      </div></td>
+	  </tr>
+</table>
+</body>
+</html>
+<script language="javascript">
+  function check(){
+   if(form1.username.value==0){
+     alert("请输入用户名");
+     form1.username.focus();
+     return;
+   }
+   if(form1.password.value==0){
+     alert("请输入密码");
+     form1.password.focus();
+     return;
+   }
+   form1.submit();
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

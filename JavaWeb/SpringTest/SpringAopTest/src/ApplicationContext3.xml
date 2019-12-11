@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--<bean id="user" class="entity.User"
+          p:id="123" p:name="张三" p:password="******" p:email="yty@xxx.com"/>-->
+    <bean id="user" class="entity.User">
+        <property name="id">
+            <value>12</value>
+        </property>
+        <property name="name" value="![CDATA[P&amp;G]]"/>
+
+        <property name="password">
+            <value>******</value>
+        </property>
+
+        <property name="email">
+            <value>p&amp;G</value>
+        </property>
+    </bean>
+  <!--  <bean id="dao" class="dao.impl.UserDaoImpl"/>-->
+    <bean id="service" class="service.impl.UserServiceImpl">
+        <property name="dao">
+            <bean class="dao.impl.UserDaoImpl"/>
+        </property>
+    </bean>
+</beans>

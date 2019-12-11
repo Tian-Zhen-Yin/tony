@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.UserMapper">
+   <!-- <select id="getUserList" resultMap="userList">
+       select * from smbms_user
+        <where>
+            <if test="userName!=null and userName!=''">
+            and userName like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="userRole!=null">
+            and userRole=#{userRole}
+            </if>
+        </where>
+    </select>-->
+    <select id="getUserList" resultMap="userList">
+        select * from smbms_user
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="userName!=null and userName!=''">
+                and userName like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="userRole!=null">
+                and userRole=#{userRole}
+            </if>
+        </trim>
+    </select>
+    <update id="updatePassword">
+        update smbms_user set userPassword=#{pwd} where id=#{id};
+    </update>
+
+    <resultMap id="userRoleList" type="user">
+        <id property="id" column="id"/>
+        <result property="userCode" column="userCode"/>
+        <result property="userName" column="userName"/>
+        <result property="userRole" column="userRole"/>
+        <!--一对一或者多对一关系-->
+        <association property="role" javaType="Role" resultMap="roleResult"/>
+    </resultMap>
+
+    <resultMap id="userList" type="user">
+        <result property="id" column="id"/>
+        <result property="userCode" column="userCode"/>
+        <result property="userName" column="userName"/>
+        <result property="phone" column="phone"/>
+        <result property="birthday" column="birthday"/>
+        <result property="gender" column="gender"/>
+        <result property="userRole" column="userRole"/>
+        <result property="userRoleName" column="roleName"/>
+    </resultMap>
+    <resultMap id="roleResult" type="Role">
+        <id property="id" column="r_id"/>
+        <result property="roleCode" column="roleCode"/>
+        <result property="roleName" column="roleName"/>
+    </resultMap>
+
+    <select id="getUserListByRoleId" parameterType="Integer" resultMap="userRoleList">
+        select u.*,r.id as r_id,roleCode,r.roleName
+        from smbms_user u,smbms_role r
+        where u.userRole=#{userRole} and u.userRole=r.id
+    </select>
+
+    <select id="getAddressListByUserId" parameterType="Integer" resultMap="userAddressList">
+        select u.*,a.id as a_id,a.contact,a.addressDesc,a.postCode,a.tel
+            from smbms_user u inner join smbms_address a
+            on u.id=a.userId and u.id=#{id}
+    </select>
+
+    <resultMap id="userAddressList" type="user">
+        <id property="id" column="id"/>
+        <result property="userCode" column="userCode"/>
+        <result property="userName" column="userName"/>
+        <collection property="addressList" ofType="Address" resultMap="addressResult"/>
+    </resultMap>
+    <resultMap id="addressResult" type="Address">
+        <id property="id" column="a_id"/>
+        <result property="contact" column="contact"/>
+        <result property="addressDesc" column="addressDesc"/>
+        <result property="tel" column="tel"/>
+        <result property="postCode" column="postCode"/>
+    </resultMap>
+
+    <select id="getUserByRoleId_foreach_array" resultMap="userMapByRole">
+        select * from smbms_user where userRole in
+        <foreach collection="array" item="roleIds"
+                 open="(" separator="," close=")">
+            #{roleIds}
+        </foreach>
+    </select>
+    <resultMap id="userMapByRole" type="user">
+        <id property="id" column="id"/>
+        <result property="userCode" column="userCode"/>
+        <result property="userName" column="userName"/>
+    </resultMap>
+
+    <select id="getUserByRoleId_foreach_list" resultMap="userMapByRole">
+        select * from smbms_user where userRole in
+        <foreach collection="list" item="roleIds"
+                 open="(" separator="," close=")">
+            #{roleIds}
+        </foreach>
+    </select>
+
+    <select id="getUserByRoleId_foreach_map" resultMap="userMapByRole">
+        select * from smbms_user where gender=#{gender} and userRole in
+        <foreach collection="roleIds" item="roleMap"
+                 open="(" separator="," close=")">
+            #{roleMap}
+        </foreach>
+    </select>
+</mapper>

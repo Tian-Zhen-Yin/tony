@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        <!--指定灰色墨盒的bean元素-->
+        <bean id="greyInk" class="printer.dao.impl.GreyInk"></bean>
+        <bean id="colorInk" class="printer.dao.impl.ColorInk"></bean>
+        <bean id="a4paper" class="printer.dao.impl.TextPaper">
+            <!--property指定需要赋值的属性，TextPaper类需要写setCharPerLine(),进行设值注入-->
+            <property name="charPerLine" value="8"/>
+            <!--property指定需要赋值的属性，TextPaper类需要写setLinePage(),进行设值注入-->
+            <property name="linePage" value="6"/>
+
+        </bean>
+    <bean id="paper" class="printer.dao.impl.TextPaper">
+        <!--property指定需要赋值的属性，TextPaper类需要写setCharPerLine(),进行设值注入-->
+        <property name="charPerLine" value="6"/>
+        <!--property指定需要赋值的属性，TextPaper类需要写setLinePage(),进行设值注入-->
+        <property name="linePage" value="5"/>
+
+    </bean>
+    <bean id="printer" class="printer.dao.impl.Printer">
+        <property name="ink" ref="greyInk"/>
+        <property name="paper" ref="a4paper"/>
+    </bean>
+
+
+</beans>
