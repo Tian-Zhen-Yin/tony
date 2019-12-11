@@ -31,7 +31,6 @@ public class MSGAdapter extends  RecyclerView.Adapter<MSGAdapter.ViewHolder>{
     }
     public MSGAdapter(List<MSG> msglist)
     {
-
         mMSGlist=msglist;
 
     }
@@ -46,19 +45,18 @@ public class MSGAdapter extends  RecyclerView.Adapter<MSGAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         MSG msg=mMSGlist.get(i);
-        if(msg.getType()==MSG.TYPE_RECEIVED){
+        if(msg.getType()==MSG.TYPE_RECEIVED)
+        {
             //如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.rightLayout.setVisibility(View.GONE);
             holder.leftMsg.setText(msg.getContent());
-
         }
         else   if(msg.getType()==MSG.TYPE_SENT)
         {
             holder.leftLayout.setVisibility(View.GONE);
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.rightMsg.setText(msg.getContent());
-
         }
     }
 
